@@ -10,12 +10,12 @@ float BubbleLedClockApp_getHumidityData() { return BubbleLedClockApp::getInstanc
 
 // --- The application's specific scene playlist ---
 static const DisplayScene scenePlaylist[] = {
-    { "Time",        "%H.%M.%S", SLOT_MACHINE, false, false, 10000, 200, 50, BubbleLedClockApp_getTimeData },
+    { "Time",        "%H.%M.%S", SLOT_MACHINE, false, true,  10000, 200, 50, BubbleLedClockApp_getTimeData },
     { "Date",        "%b %d %Y", SCROLLING,    true,  false,  7000, 300,  0, BubbleLedClockApp_getTimeData },
-    { "Time",        "%H.%M.%S", SLOT_MACHINE, false, false, 10000, 200, 50, BubbleLedClockApp_getTimeData },
+    { "Time",        "%H.%M.%S", SLOT_MACHINE, false, true,  10000, 200, 50, BubbleLedClockApp_getTimeData },
     { "Temperature", "%3.0f F",  MATRIX,       false, false,  5000, 250, 40, BubbleLedClockApp_getTempData },
     { "Temperature", "%3.0f C",  MATRIX,       false, false,  5000, 250, 40, BubbleLedClockApp_getTempData },
-    { "Time",        "%H.%M.%S", SLOT_MACHINE, false, false, 10000, 200, 50, BubbleLedClockApp_getTimeData },
+    { "Time",        "%H.%M.%S", SLOT_MACHINE, false, true,  10000, 200, 50, BubbleLedClockApp_getTimeData },
     { "Humidity",    "%3.0f PCT",MATRIX,       false, false,  5000, 250, 40, BubbleLedClockApp_getHumidityData }
 };
 static const int numScenes = sizeof(scenePlaylist) / sizeof(DisplayScene);
