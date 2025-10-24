@@ -8,13 +8,14 @@
 #include "blc_preferences.h"
 
 #include "RTClib.h"
-#include <ESP32NTPClock.h>
-#include <base_ntp_clock_app.h> // Include the new base class from the library
-#include <i_weather_clock.h>
+#include <ESP32NTPClock.h>          // Core library
+#include <ESP32NTPClock_HT16K33.h> // The specific driver library
+#include <base_ntp_clock_app.h>     // The base application engine
+#include <i_weather_clock.h>        // The weather interface
 
 #define AP_HOST_NAME "bubble-clock"
 
-// The application class now inherits from the generic "engine"
+// Inherit from the base app engine and the weather interface
 class BubbleLedClockApp : public BaseNtpClockApp, public IWeatherClock {
 public:
     // Singleton access method
@@ -23,19 +24,19 @@ public:
         return instance;
     }
 
-    // Main setup and loop, which will override the base versions
+    // Override the base setup and loop
     void setup() override;
     void loop() override;
 
-    // Public accessors for application-specific data and managers
+    // Provide the hardware setup implementation required by the base class
+    void setupHardware() override;
+
+    // Public accessors
     AppPreferences& getPrefs() { return _appPrefs; }
     float getTempData();
     float getHumidityData();
     
-    // --- Implementation of the IGenericClock interface ---
-    // The application must provide all of these concrete implementations.
-
-    // Configuration getters
+    // --- Implementation of IBaseClock & IWeatherClock ---
     const char* getAppName() const override;
     const char* getSsid() const override { return _appPrefs.config.ssid; }
     const char* getPassword() const override { return _appPrefs.config.password; }
@@ -55,17 +56,16 @@ public:
     void activateAccessPoint() override;
     void formatTime(char *txt, unsigned int txt_size, const char *format, time_t now) override;
     IDisplayDriver& getDisplay() override { return _display; }
-    DisplayManager& getClock() override { return _displayManager; }
+    DisplayManager& getClock() override { return *_displayManager; } // Now using unique_ptr
     RTC_DS1307& getRtc() override { return _rtc; }
     bool isRtcActive() const override { return _rtcActive; }
 
 private:
-    // Private constructor for singleton pattern
-    BubbleLedClockApp();
+    BubbleLedClockApp(); // Private constructor for singleton
 
-    // Application-specific hardware components
+    // Application-specific hardware
     DispDriverHT16K33 _display;
-    DisplayManager _displayManager;
+    std::unique_ptr<DisplayManager> _displayManager; // Use unique_ptr
     RTC_DS1307 _rtc;
     bool _rtcActive;
 
