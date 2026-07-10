@@ -9,3 +9,7 @@ src/i2c_scanner
 *.gcode
 *.src
 *.init
+*.sh
+
+.theia/
+scratch.txt
