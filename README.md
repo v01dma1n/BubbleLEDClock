@@ -2,6 +2,8 @@
 
 An 8-digit 7-segment "bubble" LED clock based on the ESP32. It features automatic NTP time synchronization, weather display from OpenWeatherMap, animated scenes, and a web-based configuration portal. This project serves as the primary, full-featured example application for the `ESP32NTPClock` library framework.
 
+<img src="photos/20250917_200239.jpg" alt="Bubble LED Clock" width="500">
+
 -----
 
 ## ✨ Features
